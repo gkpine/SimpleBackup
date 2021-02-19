@@ -1,0 +1,17 @@
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\bin\Debug\SimpleBackup.exe.config
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\bin\Debug\SimpleBackup.exe
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\bin\Debug\SimpleBackup.pdb
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\bin\Debug\Newtonsoft.Json.dll
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\bin\Debug\Newtonsoft.Json.xml
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup.csprojAssemblyReference.cache
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\MainWindow.g.cs
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\App.g.cs
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup_MarkupCompile.cache
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup_MarkupCompile.lref
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\MainWindow.baml
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup.g.resources
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup.Properties.Resources.resources
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup.csproj.GenerateResource.cache
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup.csproj.CopyComplete
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup.exe
+D:\Documents\Local Programming\Software\SimpleBackup\SimpleBackup\obj\Debug\SimpleBackup.pdb
