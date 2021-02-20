@@ -5,40 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleBackup"
         mc:Ignorable="d"
-        Title="MainWindow" Height="485.129" Width="657.01">
+        Title="SimpleBackup" Height="627.796" Width="606.343">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="191*"/>
-            <ColumnDefinition Width="460*"/>
-        </Grid.ColumnDefinitions>
-
-        <GroupBox Header="Settings" HorizontalAlignment="Left" Height="60" Margin="10,10,0,0" VerticalAlignment="Top" Width="275" Grid.ColumnSpan="2">
+        <GroupBox Header="Settings" HorizontalAlignment="Left" Height="99" Margin="11,309,0,0" VerticalAlignment="Top" Width="331">
             <Grid>
-                <CheckBox Content="Minimize to system tray" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <CheckBox Name="chkMinimize" Content="Minimize to system tray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                <Label Content="Back up files every               minute(s)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,0,0"/>
+                <TextBox Name="txtMins" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" Margin="116,38,0,0"/>
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="Files" HorizontalAlignment="Left" Height="153" Margin="11,75,0,0" VerticalAlignment="Top" Width="331" Grid.ColumnSpan="2">
+        <GroupBox Header="Files" HorizontalAlignment="Left" Height="153" Margin="11,32,0,0" VerticalAlignment="Top" Width="575">
             <Grid>
                 <Button Name="btnAddFile" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="0,5,0,0" Click="btnAddFile_Click"/>
-                <ListBox Name="lbFiles" HorizontalAlignment="Left" Height="105" Margin="0,25,-0.333,0" VerticalAlignment="Top" Width="319" SelectionMode="Multiple"/>
+                <ListBox Name="lbFiles" HorizontalAlignment="Left" Height="105" Margin="0,25,-0.333,0" VerticalAlignment="Top" Width="563" SelectionMode="Multiple"/>
                 <Button Name="btnRemFile" Content="-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="22,5,0,0" Click="btnRemFile_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Backup Locations" HorizontalAlignment="Left" Height="114" Margin="20,241,0,0" VerticalAlignment="Top" Width="284" Grid.ColumnSpan="2">
+        <GroupBox Header="Backup Locations" HorizontalAlignment="Left" Height="114" Margin="11,190,0,0" VerticalAlignment="Top" Width="575">
             <Grid>
                 <Button Name="btnAddBackup" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="0,5,0,0" Click="btnAddBackup_Click"/>
-                <ListBox Name="lbBackupLocs" HorizontalAlignment="Left" Height="60" Margin="0,25,0,0" VerticalAlignment="Top" Width="272" SelectionMode="Multiple"/>
+                <ListBox Name="lbBackupLocs" HorizontalAlignment="Left" Height="60" Margin="0,25,-0.333,0" VerticalAlignment="Top" Width="563" SelectionMode="Multiple"/>
                 <Button Name="btnRemBackup" Content="-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="22,5,0,0" Click="btnRemBackup_Click"/>
             </Grid>
         </GroupBox>
-        <Label Content="Back up files every               minute(s)" HorizontalAlignment="Left" Margin="15,356,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <TextBox Name="txtMins" HorizontalAlignment="Left" Height="23" Margin="121,360,0,0" TextWrapping="Wrap" Text="30" VerticalAlignment="Top" Width="44"/>
-        <Button Name="btnStart" Content="Start" HorizontalAlignment="Left" Margin="20.333,403,0,0" VerticalAlignment="Top" Width="89" Height="28" Grid.Column="1" Click="btnStart_Click"/>
-        <GroupBox Header="Log" HorizontalAlignment="Left" Height="325" Margin="174.133,10,0,0" VerticalAlignment="Top" Width="231" Grid.Column="1">
-            <Grid>
-                <TextBox Name="txtConsole" HorizontalAlignment="Left" Height="281" Margin="10,10,0,0" TextWrapping="NoWrap" AcceptsReturn="True" VerticalAlignment="Top" Width="196" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        <Button Name="btnStart" Content="Start" HorizontalAlignment="Left" Margin="411,339,0,0" VerticalAlignment="Top" Width="120" Height="39" Click="btnStart_Click"/>
+        <Expander Name="exLog" Header="Activity Log" HorizontalAlignment="Left" Height="163" Margin="11,429,0,0" VerticalAlignment="Top" Width="575">
+            <Grid Background="#FFE5E5E5">
+                <TextBox Name="txtConsole" HorizontalAlignment="Left" Height="119" Margin="10,10,0,0" TextWrapping="NoWrap" AcceptsReturn="True" VerticalAlignment="Top" Width="552" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
             </Grid>
-        </GroupBox>
+        </Expander>
+        <ToolBarTray Height="32" VerticalAlignment="Top"/>
     </Grid>
 </Window>

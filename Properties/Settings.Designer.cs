@@ -22,17 +22,5 @@ namespace SimpleBackup.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool MinToSysTray {
-            get {
-                return ((bool)(this["MinToSysTray"]));
-            }
-            set {
-                this["MinToSysTray"] = value;
-            }
-        }
     }
 }

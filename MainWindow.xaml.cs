@@ -27,12 +27,36 @@ namespace SimpleBackup
     {
         DispatcherTimer timer;
         bool running = false;
+        Configuration defaultConfig;
 
         public MainWindow()
         {
             InitializeComponent();
             Logger.LogAdded += new EventHandler(Logger_LogAdded);
+            exLog.Expanded += ExLog_Expanded;
+            exLog.Collapsed += ExLog_Collapsed;
             Logger.Log("SimpleBackup Activity Log", false);
+
+            defaultConfig = new Configuration();
+            SetConfig(defaultConfig);
+        }
+
+        private void SetConfig(Configuration config)
+        {
+            chkMinimize.IsChecked = config.MinimizeToTray;
+            txtMins.Text = config.BackupEveryMins.ToString();
+            config.FilesToBackup.ForEach((string file) => lbFiles.Items.Add(file));
+            config.BackupLocations.ForEach((string loc) => lbBackupLocs.Items.Add(loc));
+        }
+
+        private void ExLog_Collapsed(object sender, RoutedEventArgs e)
+        {
+            this.Height -= 163;
+        }
+
+        private void ExLog_Expanded(object sender, RoutedEventArgs e)
+        {
+            this.Height += 163;
         }
 
         private void Logger_LogAdded(object sender, EventArgs e)
