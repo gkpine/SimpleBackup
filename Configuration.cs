@@ -15,12 +15,15 @@ namespace SimpleBackup
         public List<string> FilesToBackup { get; set; }
         public List<string> BackupLocations { get; set; }
 
+        public bool LogIsExpanded { get; set; }
+
         public Configuration()
         {
             this.MinimizeToTray = true;
             this.BackupEveryMins = 30;
             this.FilesToBackup = new List<string>();
             this.BackupLocations = new List<string>();
+            this.LogIsExpanded = false;
         }
 
         public Configuration(string jsonLoc)
@@ -50,6 +53,7 @@ namespace SimpleBackup
             this.BackupEveryMins = config.BackupEveryMins;
             this.FilesToBackup = config.FilesToBackup;
             this.BackupLocations = config.BackupLocations;
+            this.LogIsExpanded = config.LogIsExpanded;
         }
 
     }

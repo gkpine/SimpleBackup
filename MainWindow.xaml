@@ -5,36 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleBackup"
         mc:Ignorable="d"
-        Title="SimpleBackup" Height="627.796" Width="606.343">
+        Title="SimpleBackup" Height="671.129" Width="606.343">
     <Grid>
-        <GroupBox Header="Settings" HorizontalAlignment="Left" Height="99" Margin="11,309,0,0" VerticalAlignment="Top" Width="331">
+        <GroupBox Header="Settings" HorizontalAlignment="Left" Height="99" Margin="11,481,0,0" VerticalAlignment="Top" Width="575">
             <Grid>
                 <CheckBox Name="chkMinimize" Content="Minimize to system tray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
                 <Label Content="Back up files every               minute(s)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,0,0"/>
-                <TextBox Name="txtMins" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" Margin="116,38,0,0"/>
+                <TextBox Name="txtMins" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" Margin="116,38,0,0" TextChanged="txtMins_TextChanged"/>
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="Files" HorizontalAlignment="Left" Height="153" Margin="11,32,0,0" VerticalAlignment="Top" Width="575">
+        <GroupBox Header="Files" HorizontalAlignment="Left" Height="153" Margin="11,204,0,0" VerticalAlignment="Top" Width="575">
             <Grid>
-                <Button Name="btnAddFile" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="0,5,0,0" Click="btnAddFile_Click"/>
+                <Button Name="btnAddFile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="0,1,0,0" Click="btnAddFile_Click">
+                    <Image Source="Resources/add.png"></Image>
+                </Button>
+                <Button Name="btnRemFile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="25,1,0,0" Click="btnRemFile_Click">
+                    <Image Source="Resources/remove.png"></Image>
+                </Button>
                 <ListBox Name="lbFiles" HorizontalAlignment="Left" Height="105" Margin="0,25,-0.333,0" VerticalAlignment="Top" Width="563" SelectionMode="Multiple"/>
-                <Button Name="btnRemFile" Content="-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="22,5,0,0" Click="btnRemFile_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Backup Locations" HorizontalAlignment="Left" Height="114" Margin="11,190,0,0" VerticalAlignment="Top" Width="575">
+        <GroupBox Header="Backup Locations" HorizontalAlignment="Left" Height="114" Margin="11,362,0,0" VerticalAlignment="Top" Width="575">
             <Grid>
-                <Button Name="btnAddBackup" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="0,5,0,0" Click="btnAddBackup_Click"/>
+                <Button Name="btnAddBackup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="0,1,0,0" Click="btnAddBackup_Click" BorderBrush="#FF707070">
+                    <Image Source="Resources/add.png"></Image>
+
+                </Button>
                 <ListBox Name="lbBackupLocs" HorizontalAlignment="Left" Height="60" Margin="0,25,-0.333,0" VerticalAlignment="Top" Width="563" SelectionMode="Multiple"/>
-                <Button Name="btnRemBackup" Content="-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="22,5,0,0" Click="btnRemBackup_Click"/>
+                <Button Name="btnRemBackup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="25,1,0,0" Click="btnRemBackup_Click">
+                    <Image Source="Resources/remove.png"></Image>
+                </Button>
             </Grid>
         </GroupBox>
-        <Button Name="btnStart" Content="Start" HorizontalAlignment="Left" Margin="411,339,0,0" VerticalAlignment="Top" Width="120" Height="39" Click="btnStart_Click"/>
-        <Expander Name="exLog" Header="Activity Log" HorizontalAlignment="Left" Height="163" Margin="11,429,0,0" VerticalAlignment="Top" Width="575">
+        <Button Name="btnStart" Content="Start" HorizontalAlignment="Left" Margin="241,138,0,0" VerticalAlignment="Top" Width="120" Height="39" Click="btnStart_Click" IsEnabled="False"/>
+        <Expander Name="exLog" Header="Activity Log" HorizontalAlignment="Left" Height="163" Margin="11,601,0,-122" VerticalAlignment="Top" Width="575">
             <Grid Background="#FFE5E5E5">
                 <TextBox Name="txtConsole" HorizontalAlignment="Left" Height="119" Margin="10,10,0,0" TextWrapping="NoWrap" AcceptsReturn="True" VerticalAlignment="Top" Width="552" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
             </Grid>
         </Expander>
-        <ToolBarTray Height="32" VerticalAlignment="Top"/>
+        <ToolBarTray Height="33" VerticalAlignment="Top">
+            <ToolBar Height="33" VerticalAlignment="Top" Margin="0,0,-600,-19.333">
+                <Button Name="btnSaveConfig" Width="32" Height="32" Click="btnSaveConfig_Click">
+                    <Image Source="/Resources/save.png"></Image>
+                </Button>
+                <Button Name="btnOpenConfig" Width="32" Height="32" Click="btnOpenConfig_Click">
+                    <Image Source="/Resources/open.png"></Image>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Label Content="SimpleBackup" HorizontalAlignment="Left" Margin="171,33,0,0" VerticalAlignment="Top" FontSize="40"/>
+        <TextBlock Margin="181,96,172,509">
+            <Hyperlink NavigateUri="https://github.com/dgagnonk/SimpleBackup" RequestNavigate="Hyperlink_RequestNavigate">
+                https://github.com/dgagnonk/SimpleBackup
+            </Hyperlink>
+        </TextBlock>
+        <Label Name="lblTimeOn" Content="00:00:00" HorizontalAlignment="Left" Margin="258,173,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="89" Foreground="#FF898989" Visibility="Hidden"/>
     </Grid>
 </Window>

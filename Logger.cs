@@ -25,6 +25,12 @@ namespace SimpleBackup
                 LogAdded(null, EventArgs.Empty);
         }
 
+        public static void Clear(ref TextBox consoleBox)
+        {
+            log.Clear();
+            consoleBox.Text = "";
+        }
+
         public static string GetLastLog()
         {
             if (log.Count > 0)
