@@ -21,9 +21,6 @@ using System.Diagnostics;
 
 namespace SimpleBackup
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         DispatcherTimer timer;
@@ -33,6 +30,7 @@ namespace SimpleBackup
         Configuration currentConfig;
         bool configChanged = false;
 
+        // Configure event handlers for logging and the expander. Set default "blank" on-load config.
         public MainWindow()
         {
             InitializeComponent();
@@ -44,8 +42,53 @@ namespace SimpleBackup
 
             currentConfig = new Configuration();
             SetConfigChanges(currentConfig);
+            configChanged = false;
         }
 
+        // Sets GUI to match config argument
+        private void SetConfigChanges(Configuration config)
+        {
+            chkMinimize.IsChecked = config.MinimizeToTray;
+            txtMins.Text = config.BackupEveryMins.ToString();
+            config.FilesToBackup.ForEach((string file) => lbFiles.Items.Add(file));
+            config.BackupLocations.ForEach((string loc) => lbBackupLocs.Items.Add(loc));
+            exLog.IsExpanded = config.LogIsExpanded;
+        }
+
+        // Save config as JSON
+        private void SaveConfig()
+        {
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
+            sfd.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+            if (sfd.ShowDialog() == true)
+            {
+                currentConfig.SaveConfig(sfd.FileName);
+                configChanged = false;
+            }
+        }
+
+        // Sets button enabled value depending on if there is valid data on the GUI to use.
+        // forcedValue argument forces the button to have a value, e.g. for when mins textbox has invalid input.
+        private void StartButtonEnabledHandler(bool? forcedValue = null)
+        {
+            if (forcedValue != null) btnStart.IsEnabled = forcedValue.GetValueOrDefault(); 
+            if (lbFiles.Items.Count > 0 && lbBackupLocs.Items.Count > 0 && txtMins.Text.Length > 0) btnStart.IsEnabled = true;
+            else btnStart.IsEnabled = false;
+        }
+
+        // Disable basically everything when the user clicks the start button.
+        private void OnStartEnableDisable()
+        {
+            btnAddBackup.IsEnabled = !running;
+            btnAddFile.IsEnabled = !running;
+            btnOpenConfig.IsEnabled = !running;
+            btnRemBackup.IsEnabled = !running;
+            btnRemFile.IsEnabled = !running;
+            btnSaveConfig.IsEnabled = !running;
+            txtMins.IsEnabled = !running;
+        }
+
+        // If config is dirty, prompt user to save before closing.
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (configChanged)
@@ -61,54 +104,26 @@ namespace SimpleBackup
             }
         }
 
-        private void SetConfigChanges(Configuration config)
-        {
-            chkMinimize.IsChecked = config.MinimizeToTray;
-            txtMins.Text = config.BackupEveryMins.ToString();
-            config.FilesToBackup.ForEach((string file) => lbFiles.Items.Add(file));
-            config.BackupLocations.ForEach((string loc) => lbBackupLocs.Items.Add(loc));
-            exLog.IsExpanded = config.LogIsExpanded;
-        }
-
-        private void SaveConfig()
-        {
-            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
-            sfd.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
-            if (sfd.ShowDialog() == true)
-            {
-                currentConfig.SaveConfig(sfd.FileName);
-                configChanged = false;
-            }
-        }
-
-        private void StartButtonEnabledHandler(bool? forcedValue = null)
-        {
-            if (forcedValue != null) btnStart.IsEnabled = forcedValue.GetValueOrDefault(); 
-            if (lbFiles.Items.Count > 0 && lbBackupLocs.Items.Count > 0 && txtMins.Text.Length > 0) btnStart.IsEnabled = true;
-            else btnStart.IsEnabled = false;
-        }
-
-        private void OnStartEnableDisable()
-        {
-            btnAddBackup.IsEnabled = !running;
-            btnAddFile.IsEnabled = !running;
-            btnOpenConfig.IsEnabled = !running;
-            btnRemBackup.IsEnabled = !running;
-            btnRemFile.IsEnabled = !running;
-            btnSaveConfig.IsEnabled = !running;
-            txtMins.IsEnabled = !running;
-        }
-
+        // Keep window small when log expander is collapsed.
         private void ExLog_Collapsed(object sender, RoutedEventArgs e)
         {
             this.Height -= 163;
+            currentConfig.LogIsExpanded = false;
+            // We don't do configChanged = true here because it's a small change. 
+            // User shouldn't be prompted to save when the log is collapsed/expanded.
         }
 
+        // Keep window big when log expander is expanded.
         private void ExLog_Expanded(object sender, RoutedEventArgs e)
         {
             this.Height += 163;
+            currentConfig.LogIsExpanded = true;
+            // We don't do configChanged = true here because it's a small change. 
+            // User shouldn't be prompted to save when the log is collapsed/expanded.
         }
 
+        // Custom event handler to change txtConsole when there's a new log.
+        // Soft max line count in the log of 50000 lines.
         private void Logger_LogAdded(object sender, EventArgs e)
         {
             txtConsole.Text += Logger.GetLastLog();
@@ -120,6 +135,7 @@ namespace SimpleBackup
             }
         }
 
+        // Add file to listbox
         private void btnAddFile_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -129,6 +145,7 @@ namespace SimpleBackup
                 foreach(string filename in ofd.FileNames)
                 {
                     lbFiles.Items.Add(filename);
+                    currentConfig.FilesToBackup.Add(filename);
                     Logger.Log("ADD file " + filename);
                 }
                 configChanged = true;
@@ -137,6 +154,7 @@ namespace SimpleBackup
             StartButtonEnabledHandler();
         }
 
+        // Remove file from listbox
         private void btnRemFile_Click(object sender, RoutedEventArgs e)
         {
             if (lbFiles.SelectedIndex < 0) return;
@@ -145,6 +163,7 @@ namespace SimpleBackup
             foreach(object selected in selectedItems)
             {
                 lbFiles.Items.Remove(selected);
+                currentConfig.FilesToBackup.Remove(selected.ToString());
                 Logger.Log("REMOVE file " + selected.ToString());
             }
 
@@ -152,6 +171,7 @@ namespace SimpleBackup
             StartButtonEnabledHandler();
         }
 
+        // Start backup loop
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
             if (!running)
@@ -201,17 +221,20 @@ namespace SimpleBackup
             StartButtonEnabledHandler();
         }
 
+        // Timer that shows how long the backup loop has been running for
         private void RunTimer_Tick(object sender, EventArgs e)
         {
             runTime = runTime.Add(new TimeSpan(0, 0, 1));
             lblTimeOn.Content = runTime.ToString();
         }
 
+        // Backup loop
         private void Timer_Tick(object sender, EventArgs e)
         {
             FileManager.DoBackup(lbFiles.Items.OfType<string>().ToArray(), lbBackupLocs.Items.OfType<string>().ToArray());
         }
 
+        // Add backup location
         private void btnAddBackup_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -219,12 +242,14 @@ namespace SimpleBackup
             {
                 lbBackupLocs.Items.Add(fbd.SelectedPath);
                 Logger.Log("ADD backup folder " + fbd.SelectedPath);
+                currentConfig.BackupLocations.Add(fbd.SelectedPath);
                 configChanged = true;
             }
 
             StartButtonEnabledHandler();
         }
 
+        // Remove backup location
         private void btnRemBackup_Click(object sender, RoutedEventArgs e)
         {
             if (lbBackupLocs.SelectedIndex < 0) return;
@@ -233,6 +258,7 @@ namespace SimpleBackup
             foreach (object selected in selectedItems)
             {
                 lbBackupLocs.Items.Remove(selected);
+                currentConfig.BackupLocations.Remove(selected.ToString());
                 Logger.Log("REMOVE backup folder " + selected.ToString());
             }
 
@@ -240,17 +266,20 @@ namespace SimpleBackup
             StartButtonEnabledHandler();
         }
 
+        // Github hyperlink on main window
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
 
+        // Save config button
         private void btnSaveConfig_Click(object sender, RoutedEventArgs e)
         {
             SaveConfig();
         }
 
+        // Open config
         private void btnOpenConfig_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -261,8 +290,11 @@ namespace SimpleBackup
                 SetConfigChanges(currentConfig);
                 configChanged = false;
             }
+
+            StartButtonEnabledHandler();
         }
 
+        // Check validity of minutes entered in textbox
         private void txtMins_TextChanged(object sender, TextChangedEventArgs e)
         {
             float mins;
@@ -275,6 +307,7 @@ namespace SimpleBackup
             else
             {
                 txtMins.Background = new SolidColorBrush(Colors.White);
+                currentConfig.BackupEveryMins = mins;
                 configChanged = true;
                 StartButtonEnabledHandler();
             }

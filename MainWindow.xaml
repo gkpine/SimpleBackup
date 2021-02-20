@@ -9,7 +9,7 @@
     <Grid>
         <GroupBox Header="Settings" HorizontalAlignment="Left" Height="99" Margin="11,481,0,0" VerticalAlignment="Top" Width="575">
             <Grid>
-                <CheckBox Name="chkMinimize" Content="Minimize to system tray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                <CheckBox Name="chkMinimize" Content="Minimize to system tray (coming soon)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" IsEnabled="False"/>
                 <Label Content="Back up files every               minute(s)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,0,0"/>
                 <TextBox Name="txtMins" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" Margin="116,38,0,0" TextChanged="txtMins_TextChanged"/>
             </Grid>
