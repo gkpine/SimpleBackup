@@ -34,15 +34,30 @@ namespace SimpleBackup
         public MainWindow()
         {
             InitializeComponent();
+
             Logger.LogAdded += new EventHandler(Logger_LogAdded);
             exLog.Expanded += ExLog_Expanded;
             exLog.Collapsed += ExLog_Collapsed;
             this.Closing += MainWindow_Closing;
+            this.Loaded += MainWindow_Loaded;
             Logger.Log("SimpleBackup Activity Log", false);
 
             currentConfig = new Configuration();
             SetConfigChanges(currentConfig);
             configChanged = false;
+        }
+
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateInfo info = await Updater.GetUpdateInfo();
+            if (info != null && info.AppNeedsUpdate)
+            {
+                MessageBoxResult result = System.Windows.MessageBox.Show("An update is available. Would you like to visit the download page?", "Update", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Process.Start(info.DownloadUrl);
+                }
+            }
         }
 
         // Sets GUI to match config argument
