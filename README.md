@@ -9,6 +9,9 @@ I got frustrated with existing backup tools. They were either paid software with
 ## Downloads
 You can find the latest executable download link [here](http://dgagnonk.github.io/).
 
+## Installation
+Nothing special here. Just unzip the files somewhere and run. You will need to have both SimpleBackup.exe and Newtonsoft.Json.dll in the same location for SimpleBackup to work.
+
 ## Usage
 You can save or open existing configurations using the save and open buttons in the top toolbar.
  1. Add files to back up
