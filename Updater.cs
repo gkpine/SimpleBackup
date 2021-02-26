@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using System.Net.Http;
 
 namespace SimpleBackup
 {
@@ -16,24 +17,18 @@ namespace SimpleBackup
 
     public static class Updater
     {
-        public static float Version = 1;
+        public static float Version = 1.0f;
         private static readonly string UpdaterUrl = "https://dgagnonk.github.io/updaters/SimpleBackup.html";
 
         public async static Task<UpdateInfo> GetUpdateInfo()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             string updateStr;
 
-            using (WebClient client = new WebClient())
+            using (HttpClient client = new HttpClient())
             {
-                try
-                {
-                    updateStr = await client.DownloadStringTaskAsync(UpdaterUrl);
-                }
-                catch (WebException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return null;
-                }
+                client.DefaultRequestHeaders.Add("User-Agent", "SimpleBackup");
+                updateStr = await client.GetStringAsync(UpdaterUrl);
             }
 
             string[] updateParams = updateStr.Split('|');

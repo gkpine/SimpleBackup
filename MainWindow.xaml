@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleBackup"
         mc:Ignorable="d"
-        Title="SimpleBackup" Height="671.129" Width="606.343">
+        Title="SimpleBackup" Height="671.129" Width="606.343" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Grid>
         <GroupBox Header="Settings" HorizontalAlignment="Left" Height="99" Margin="11,481,0,0" VerticalAlignment="Top" Width="575">
             <Grid>
